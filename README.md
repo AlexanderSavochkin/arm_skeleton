@@ -8,6 +8,13 @@ board.
 The purpose of this project is more or less just to give me a skeleton
 to copy when spinning up new projects.
 
+Requirements
+============
+
+- The arm-gcc toolchain
+- A Unix-like environment (Windows is probably OK but you're on your
+  own)
+- Patience
 
 License
 =======
