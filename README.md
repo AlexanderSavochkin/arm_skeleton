@@ -11,10 +11,10 @@ to copy when spinning up new projects.
 Requirements
 ============
 
-- The arm-gcc toolchain
-- A Unix-like environment (Windows is probably OK but you're on your
-  own)
-- Patience
+  - The arm-gcc toolchain
+  - A Unix-like environment (Windows is probably OK but you're on your
+    own)
+  - Patience
 
 License
 =======

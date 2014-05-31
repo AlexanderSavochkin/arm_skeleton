@@ -15,7 +15,7 @@ LDFLAGS=-Os -Wl,--gc-sections -mcpu=cortex-m3 -Tflash.ld \
 	-Wl,--warn-common -Wl,--warn-section-align \
 	-Wl,--warn-unresolved-symbols
 
-all: test
+all: core
 
 main.c.o:
 	$(CC) $(CFLAGS) -o main.c.o main.c
@@ -27,11 +27,11 @@ core.a: startup_sam3xa.c.o main.c.o
 	$(AR) rcs core.a startup_sam3xa.c.o
 	$(AR) rcs core.a main.c.o
 
-test: core.a
+core: core.a
 	$(CC) $(LDFLAGS) -Wl,--start-group core.a -Wl,--end-group
 	$(OBJCOPY) -O binary main.c.elf main.c.bin
 
-prog: test
+prog: core
 	stty -F /dev/ttyACM0 1200
 	bossac -i -d --port=ttyACM0 -U false -e -w -v -b main.c.bin -R
 
