@@ -14,10 +14,16 @@ int main(void) {
     // Configure built-in amber LED as an output
     PIO(PIOB_OER, (1 << 27));
 
-    volatile uint32_t cnt = 0;
+    volatile uint32_t cnt;
 
     while (1) {
-        PIO(PIOB_SODR, cnt++);
+        PIO(PIOB_CODR, (1 << 27));
+        cnt = 100000;
+        while (cnt-- > 0);
+
+        PIO(PIOB_SODR, (1 << 27));
+        cnt = 100000;
+        while (cnt-- > 0);
     }
 
     return 0;
