@@ -19,8 +19,8 @@ Requirements
 License
 =======
 
-The following files are redistributed from ARM and are under the SAM
-Software Package License.
+The following files are redistributed from and copyright by Atmel
+Corporation, and are under the SAM Software Package License.
 
   - startup_sam3xa.c
   - flash.ld
