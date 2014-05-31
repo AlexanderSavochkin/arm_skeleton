@@ -19,7 +19,16 @@ Requirements
 License
 =======
 
+The following files are redistributed from ARM and are under the SAM
+Software Package License.
+
+  - startup_sam3xa.c
+  - flash.ld
+
+The rest of the code is distributed under the MIT License.
+
 The MIT License (MIT)
+---------------------
 
 Copyright (c) 2014 Seth J. Morabito <web@loomcom.com>
 
