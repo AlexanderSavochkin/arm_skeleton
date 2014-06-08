@@ -1,29 +1,30 @@
 #include <inttypes.h>
 
-#define PIOB_PER    0x400e1000
-#define PIOB_PDR    0x400e1004
-#define PIOB_PSR    0x400e1008
-#define PIOB_OER    0x400e1010
-#define PIOB_SODR   0x400e1030 /* Set Output */
-#define PIOB_CODR   0x400e1034 /* Clear Output */
+#include "main.h"
 
-#define PIO(addr,d) (* (uint32_t *) addr) = d
+void init_system_clock() {
+    // Set FWS
+    asm("mww 0x400E0A00 0x400\r\n"
+        "mww 0x400E0C00 0x400\r\n");
+}
 
 int main(void) {
 
-    // Configure built-in amber LED as an output
-    PIO(PIOB_OER, (1 << 27));
+    // Select main clock
 
-    volatile uint32_t cnt;
+    WRITE(PMC, PMC_MCKR, (1 << 0));
+
+    // Configure built-in amber LED as an output
+    WRITE(PIOB, PIO_OER, (1 << 27));
+
+    volatile uint32_t cnt = 0;
 
     while (1) {
-        PIO(PIOB_CODR, (1 << 27));
-        cnt = 100000;
-        while (cnt-- > 0);
+        WRITE(PIOB, PIO_CODR, (1 << 27));
+        cnt++;
 
-        PIO(PIOB_SODR, (1 << 27));
-        cnt = 100000;
-        while (cnt-- > 0);
+        WRITE(PIOB, PIO_SODR, (1 << 27));
+        cnt++;
     }
 
     return 0;
