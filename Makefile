@@ -28,6 +28,7 @@ core.a: startup_sam3xa.c.o main.c.o
 	$(AR) rcs core.a main.c.o
 
 core: core.a
+	cd ./sam/libsam/build_gcc/ && make
 	$(CC) $(LDFLAGS) -Wl,--start-group core.a -Wl,--end-group
 	$(OBJCOPY) -O binary main.c.elf main.c.bin
 
@@ -37,3 +38,4 @@ prog: core
 
 clean:
 	rm -f test *.elf *.a *.o *.map *.bin
+	cd ./sam/libsam/build_gcc/ && make clean
