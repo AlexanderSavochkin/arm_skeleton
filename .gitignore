@@ -1,4 +1,5 @@
 *.a
+*.a.txt
 *.bin
 *.elf
 *.map

@@ -2,12 +2,6 @@
 
 #include "main.h"
 
-void init_system_clock() {
-    // Set FWS
-    asm("mww 0x400E0A00 0x400\r\n"
-        "mww 0x400E0C00 0x400\r\n");
-}
-
 int main(void) {
 
     // Select main clock
