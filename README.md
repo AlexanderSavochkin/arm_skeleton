@@ -19,13 +19,13 @@ Requirements
 License
 =======
 
-The following files are redistributed from and copyright by Atmel
-Corporation, and are under the SAM Software Package License.
+Source files under Seth Morabito's copyright are distributed under the MIT
+License.
 
-  - startup_sam3xa.c
-  - flash.ld
-
-The rest of the code is distributed under the MIT License.
+The source files under the "sam" directory are redistributed from both Arduino
+and Atmel Corporation. Source files under Arduino's copyright are distributed
+under the LGPL License. Source files under Atmel's copyright are distributed
+under the SAM Software Package License.
 
 The MIT License (MIT)
 ---------------------
