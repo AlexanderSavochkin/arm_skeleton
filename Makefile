@@ -1,14 +1,23 @@
 CC=arm-none-eabi-gcc
 OBJCOPY=arm-none-eabi-objcopy
 AR=arm-none-eabi-ar
+LIB=./lib
+LINKER_SCRIPTS=./sam/linker_scripts/gcc
+
+
 CFLAGS=-c -g -Os -w -ffunction-sections -fdata-sections -nostdlib \
 	-I/usr/lib/arm-none-eabi/include/ \
+        -I./include \
+        -I./sam/libsam \
+        -I./sam/CMSIS/CMSIS/Include/  \
+        -I./sam/CMSIS/Device/ATMEL/ \
 	--param max-inline-insns-single=500 -fno-rtti -fno-exceptions \
 	-Dprintf=iprintf -mcpu=cortex-m3 -DF_CPU=84000000L \
 	-DARDUINO=156 -DARDUINO_SAM_DUE -DARDUINO_ARCH_SAM -D__SAM3X8E__ \
 	-mthumb -DUSB_VID=0x2341 -DUSB_PID=0x003e -DUSBCON \
 	-DUSB_MANUFACTURER="Unknown" -DUSB_PRODUCT="Arduino Due"
-LDFLAGS=-Os -Wl,--gc-sections -mcpu=cortex-m3 -Tflash.ld \
+
+LDFLAGS=-Os -Wl,--gc-sections -mcpu=cortex-m3 -T$(LINKER_SCRIPTS)/flash.ld \
 	-Wl,-Map,main.c.map -o main.c.elf -lm -lgcc -mthumb \
 	-Wl,--cref -Wl,--check-sections -Wl,--gc-sections \
 	-Wl,--entry=Reset_Handler -Wl,--unresolved-symbols=report-all \
@@ -17,19 +26,17 @@ LDFLAGS=-Os -Wl,--gc-sections -mcpu=cortex-m3 -Tflash.ld \
 
 all: core
 
-main.c.o:
+libsam:
+	cd ./sam/libsam/build_gcc/ && make
+
+main.c.o: 
 	$(CC) $(CFLAGS) -o main.c.o main.c
 
-startup_sam3xa.c.o:
-	$(CC) $(CFLAGS) -o startup_sam3xa.c.o startup_sam3xa.c
-
-core.a: startup_sam3xa.c.o main.c.o
-	$(AR) rcs core.a startup_sam3xa.c.o
+core.a: main.c.o
 	$(AR) rcs core.a main.c.o
 
-core: core.a
-	cd ./sam/libsam/build_gcc/ && make
-	$(CC) $(LDFLAGS) -Wl,--start-group core.a -Wl,--end-group
+core: libsam core.a
+	$(CC) $(LDFLAGS) -Wl,--start-group $(LIB)/libsam_sam3x8e_gcc_rel.a core.a -Wl,--end-group
 	$(OBJCOPY) -O binary main.c.elf main.c.bin
 
 prog: core
