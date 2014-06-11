@@ -27,9 +27,9 @@ LDFLAGS=-Os -Wl,--gc-sections -mcpu=cortex-m3 -T$(LINKER_SCRIPTS)/flash.ld \
 all: core
 
 libsam:
-	cd ./sam/libsam/build_gcc/ && make
+	cd ./sam/libsam/build_gcc/ && make arduino_due_x
 
-main.c.o: 
+main.c.o:
 	$(CC) $(CFLAGS) -o main.c.o main.c
 
 core.a: main.c.o
