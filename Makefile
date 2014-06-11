@@ -24,22 +24,23 @@ LDFLAGS=-Os -Wl,--gc-sections -mcpu=cortex-m3 -T$(LINKER_SCRIPTS)/flash.ld \
 	-Wl,--warn-common -Wl,--warn-section-align \
 	-Wl,--warn-unresolved-symbols
 
-all: core
+SOURCES=main.c syscalls.c
+OBJECTS=$(SOURCES:.c=.o)
+EXECUTABLE=main
+
+all: $(SOURCES) $(EXECUTABLE)
 
 libsam:
 	cd ./sam/libsam/build_gcc/ && make arduino_due_x
 
-main.c.o:
-	$(CC) $(CFLAGS) -o main.c.o main.c
+.c.o:
+	$(CC) $(CFLAGS) $< -o $@
 
-core.a: main.c.o
-	$(AR) rcs core.a main.c.o
-
-core: libsam core.a
-	$(CC) $(LDFLAGS) -Wl,--start-group $(LIB)/libsam_sam3x8e_gcc_rel.a core.a -Wl,--end-group
+$(EXECUTABLE): libsam $(OBJECTS)
+	$(CC) $(LDFLAGS) -Wl,--start-group $(OBJECTS) $(LIB)/libsam_sam3x8e_gcc_rel.a -Wl,--end-group
 	$(OBJCOPY) -O binary main.c.elf main.c.bin
 
-prog: core
+prog: $(EXECUTABLE)
 	stty -F /dev/ttyACM0 1200
 	bossac -i -d --port=ttyACM0 -U false -e -w -v -b main.c.bin -R
 

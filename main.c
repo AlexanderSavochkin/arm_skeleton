@@ -1,34 +1,5 @@
 #include "due_sam3x.init.h"
 
-#ifndef USE_PWM_TC0
-
-/**
- * Simply blink the amber LED on the DUE with 2Hz:
- */
-int main(void)
-{
-  /* The general init (clock, libc, watchdog ...) */
-  init_controller();
-
-  /* Board pin 13 == PB27 */
-  PIO_Configure(PIOB, PIO_OUTPUT_1, PIO_PB27, PIO_DEFAULT);
-
-  /* Main loop */
-  while(1) {
-    Sleep(250);
-    if(PIOB->PIO_ODSR & PIO_PB27) {
-      /* Set clear register */
-      PIOB->PIO_CODR = PIO_PB27;
-    } else {
-      /* Set set register */
-      PIOB->PIO_SODR = PIO_PB27;
-    }
-  }
-  return 0;
-}
-
-#else
-
 /*
  * The Arduino DUE LED is on pin 13 on the board, that is PB27 on the chip,
  * which has the timer/counter I/O TIOB0 alternative. Atmel defines for this
@@ -71,5 +42,3 @@ int main(void)
   }
   return 0;
 }
-
-#endif

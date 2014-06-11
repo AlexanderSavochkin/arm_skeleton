@@ -33,7 +33,7 @@ endif
 
 SEP=/
 
-# ---------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # C Flags
 
 CFLAGS += -Wall -Wchar-subscripts -Wcomment -Wformat=2 -Wimplicit-int
@@ -44,12 +44,8 @@ CFLAGS += -Wshadow -Wpointer-arith -Wbad-function-cast -Wwrite-strings
 CFLAGS += -Wsign-compare -Waggregate-return -Wstrict-prototypes
 CFLAGS += -Wmissing-prototypes -Wmissing-declarations
 CFLAGS += -Wformat -Wmissing-format-attribute -Wno-deprecated-declarations
-#CFLAGS += -Wpacked -Wredundant-decls -Wnested-externs -Winline -Wlong-long
 CFLAGS += -Wredundant-decls -Wnested-externs -Winline -Wlong-long
 CFLAGS += -Wunreachable-code
-#CFLAGS += -Wcast-align
-#CFLAGS += -Wmissing-noreturn
-#CFLAGS += -Wconversion
 
 # To reduce application size use only integer printf function.
 CFLAGS += -Dprintf=iprintf
@@ -58,7 +54,7 @@ CFLAGS += --param max-inline-insns-single=500 -mcpu=cortex-m3 -mthumb -mlong-cal
 CFLAGS += $(OPTIMIZATION) $(INCLUDES) -D$(CHIP)
 
 
-# ---------------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # ASM Flags
 
 ASFLAGS = -mcpu=cortex-m3 -mthumb -Wall -a -g $(INCLUDES)
